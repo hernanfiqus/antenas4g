@@ -7,6 +7,17 @@
     <!-- Site Title -->
     <title>Antenas 4G en VLA!</title>
     <meta property="og:image" content="http://antenas4g.com.ar/static/img/antena.jpg"/>
+<!-- for Facebook -->          
+<meta property="og:title" content="Antenas 4G en VLA!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://antenas4g.com.ar" />
+<meta property="og:description" content="Están instalando 9 antenas 4G en Villa La Angostura.¿Son cancerígenas?¡Nadie lo sabe!" />
+
+<!-- for Twitter -->          
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Antenas 4G en VLA" />
+<meta name="twitter:description" content="Están instalando 9 antenas 4G en Villa La Angostura.¿Son cancerígenas?¡Nadie lo sabe!" />
+<meta name="twitter:image" content=""http://antenas4g.com.ar/static/img/antena.jpg" />
     <meta name="format-detection" content="telephone=no"/>
     <meta name="viewport"
           content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
@@ -97,7 +108,7 @@
                             <p style="text-shadow: 2px 2px #000000">
                                 <strong>¿Son cancerígenas?¡Nadie lo sabe!</strong>
                             </p>
-                            <a id="votar" data-url="{% url "votar" %}" class="btn btn-md btn-primary"
+                            <a data-url="{% url "votar" %}" class="votar btn btn-md btn-primary"
                                href="#resultados" style="font-weight: bold;">
                                 ¡Votá Audiencia Pública!
                             </a>
@@ -159,7 +170,7 @@
                 Ahora que sabes más....
             </p>
             <br/>
-            <a id="votar" data-url="{% url "votar" %}" class="btn btn-md btn-primary"
+            <a data-url="{% url "votar" %}" class="votar btn btn-md btn-primary"
                href="#resultados" style="font-weight: bold;">
                 ¡Votá Audiencia Pública!
             </a>
@@ -169,7 +180,7 @@
     <!-- Best services -->
     <section id="resultados" class="well-xl-5 hr default-9">
         <div class="container text-center">
-            {% if cantidad_votos > 100 %}
+            {% if cantidad_votos > 50 %}
                 <h2 class="text-line">¡Mirá cuantos somos!</h2>
                 <div class="row col-md-12">
                     <div class="col-md-12"
@@ -186,8 +197,9 @@
                 </div>
                 <br>
             {% else %}
-                <h2 class="">Próximamente resultados de la votación...</h2>
-                <br>
+		<h2 id="gracias"></h2>
+                <p>Próximamente resultados de la votación...</p>
+                <br/>
             {% endif %}
         </div>
     </section>
@@ -263,7 +275,7 @@
             time: 1000
         });
 
-        $('#votar').click(function () {
+        $('.votar').click(function () {
             var no_voto = typeof $.cookie('votaste_por_antenas') == 'undefined';
             if (no_voto) {
                 var url = $(this).data("url");
@@ -275,12 +287,16 @@
                         $.cookie("votaste_por_antenas", "true");
                         $("#cantidad_votos_actual").html(result.cantidad_actual);
                         $('.counter').counterUp();
+			$('#gracias').html("¡Gracias por tu voto!");
                     },
                     error: function (xhr, errmsg, err) {
                         console.log(err);
                     }
                 });
             }
+	    else{
+			$('#gracias').html("¡Tu voto ya fue registrado anteriormente!");
+	    }
         });
     });
 </script>
